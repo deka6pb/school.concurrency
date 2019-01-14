@@ -1,3 +1,5 @@
+package concurrent.thread;
+
 public class ThreadMain2 {
     public static void main(String[] args) throws InterruptedException {
         Thread t = new MyThread();
