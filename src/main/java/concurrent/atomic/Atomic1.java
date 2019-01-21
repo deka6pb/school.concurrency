@@ -1,4 +1,6 @@
-package concurrent;
+package concurrent.atomic;
+
+import concurrent.ConcurrentUtils;
 
 import java.util.concurrent.ExecutorService;
 import java.util.concurrent.Executors;
@@ -16,8 +18,8 @@ public class Atomic1 {
 
     public static void main(String[] args) {
         testIncrement();
-        testAccumulate();
-        testUpdate();
+//        testAccumulate();
+//        testUpdate();
     }
 
     private static void testIncrement() {

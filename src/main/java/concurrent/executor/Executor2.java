@@ -9,14 +9,9 @@ public class Executor2 {
         ExecutorService executor = Executors.newSingleThreadExecutor();
 
         executor.submit(() -> {
-            try {
-                String threadName = Thread.currentThread().getName();
-                System.out.println("Hello " + threadName);
-                Thread.sleep(6000);
-                System.out.println("Bye " + threadName);
-            } catch (InterruptedException e) {
-                System.err.println("Error");
-            }
+            String threadName = Thread.currentThread().getName();
+            System.out.println("Hello " + threadName);
+            System.out.println("Bye " + threadName);
         });
 
         try {

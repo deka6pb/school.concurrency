@@ -24,7 +24,7 @@ public class Lock3 {
         executor.submit(() -> {
             lock.writeLock().lock();
             try {
-                ConcurrentUtils.sleep(1);
+                ConcurrentUtils.sleep(3);
                 map.put("foo", "bar");
             } finally {
                 lock.writeLock().unlock();
@@ -35,7 +35,7 @@ public class Lock3 {
             lock.readLock().lock();
             try {
                 System.out.println(map.get("foo"));
-                ConcurrentUtils.sleep(1);
+                ConcurrentUtils.sleep(3);
             } finally {
                 lock.readLock().unlock();
             }

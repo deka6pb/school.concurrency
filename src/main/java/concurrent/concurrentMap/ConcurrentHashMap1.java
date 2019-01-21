@@ -1,4 +1,4 @@
-package concurrent;
+package concurrent.concurrentMap;
 
 import java.util.concurrent.ConcurrentHashMap;
 import java.util.concurrent.ForkJoinPool;
@@ -11,22 +11,22 @@ public class ConcurrentHashMap1 {
     public static void main(String[] args) {
         System.out.println("Parallelism: " + ForkJoinPool.getCommonPoolParallelism());
 
-//        testReduce();
-        testSearch();
 //        testForEach();
+        testSearch();
+//        testReduce();
     }
 
-    private static void testReduce() {
+    private static void testForEach() {
         ConcurrentHashMap<String, String> map = new ConcurrentHashMap<>();
         map.putIfAbsent("foo", "bar");
         map.putIfAbsent("han", "solo");
         map.putIfAbsent("r2", "d2");
         map.putIfAbsent("c3", "p0");
 
-        String reduced = map.reduce(1, (key, value) -> key + "=" + value,
-                (s1, s2) -> s1 + ", " + s2);
+        map.forEach(1, (key, value) -> System.out.printf("key: %s; value: %s; thread: %s\n", key, value, Thread.currentThread().getName()));
+//        map.forEach(5, (key, value) -> System.out.printf("key: %s; value: %s; thread: %s\n", key, value, concurrent.Thread.currentThread().getName()));
 
-        System.out.println(reduced);
+        System.out.println(map.mappingCount());
     }
 
     private static void testSearch() {
@@ -61,17 +61,17 @@ public class ConcurrentHashMap1 {
         System.out.println(result2);
     }
 
-    private static void testForEach() {
+    private static void testReduce() {
         ConcurrentHashMap<String, String> map = new ConcurrentHashMap<>();
         map.putIfAbsent("foo", "bar");
         map.putIfAbsent("han", "solo");
         map.putIfAbsent("r2", "d2");
         map.putIfAbsent("c3", "p0");
 
-        map.forEach(1, (key, value) -> System.out.printf("key: %s; value: %s; thread: %s\n", key, value, Thread.currentThread().getName()));
-//        map.forEach(5, (key, value) -> System.out.printf("key: %s; value: %s; thread: %s\n", key, value, concurrent.Thread.currentThread().getName()));
+        String reduced = map.reduce(1, (key, value) -> key + "=" + value,
+                (s1, s2) -> s1 + ", " + s2);
 
-        System.out.println(map.mappingCount());
+        System.out.println(reduced);
     }
 
 }

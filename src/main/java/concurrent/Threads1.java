@@ -7,26 +7,25 @@ import java.util.concurrent.TimeUnit;
  */
 public class Threads1 {
 
-    public static void main(String[] args) {
+    public static void main(String[] args) throws InterruptedException {
         test1();
 //        test2();
 //        test3();
     }
 
-    private static void test3() {
+    private static void test1() throws InterruptedException {
         Runnable runnable = () -> {
-            try {
-                System.out.println("Foo " + Thread.currentThread().getName());
-                TimeUnit.SECONDS.sleep(1);
-                System.out.println("Bar " + Thread.currentThread().getName());
-            }
-            catch (InterruptedException e) {
-                e.printStackTrace();
-            }
+            String threadName = Thread.currentThread().getName();
+            System.out.println("Hello " + threadName);
         };
+
+        runnable.run();
 
         Thread thread = new Thread(runnable);
         thread.start();
+//        thread.join();
+
+        System.out.println("Done!");
     }
 
     private static void test2() {
@@ -45,17 +44,19 @@ public class Threads1 {
         thread.start();
     }
 
-    private static void test1() {
+    private static void test3() {
         Runnable runnable = () -> {
-            String threadName = Thread.currentThread().getName();
-            System.out.println("Hello " + threadName);
+            try {
+                System.out.println("Foo " + Thread.currentThread().getName());
+                TimeUnit.SECONDS.sleep(1);
+                System.out.println("Bar " + Thread.currentThread().getName());
+            }
+            catch (InterruptedException e) {
+                e.printStackTrace();
+            }
         };
-
-        runnable.run();
 
         Thread thread = new Thread(runnable);
         thread.start();
-
-        System.out.println("Done!");
     }
 }
