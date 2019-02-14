@@ -13,13 +13,13 @@ import java.util.concurrent.TimeoutException;
 public class Executors2 {
 
     public static void main(String[] args) throws ExecutionException, InterruptedException, TimeoutException {
-//        test1();
+        test1();
 //        test2();
-        test3();
+//        test3();
     }
 
     private static void test1() throws InterruptedException, ExecutionException {
-        ExecutorService executor = Executors.newFixedThreadPool(1);
+        ExecutorService executor = Executors.newFixedThreadPool(2);
 
         Future<Integer> future = executor.submit(() -> {
             try {
@@ -36,9 +36,33 @@ public class Executors2 {
         Integer result = future.get();
 
         System.out.println("future done: " + future.isDone());
-        System.out.print("result: " + result);
+        System.out.println("result: " + result);
 
-        executor.shutdownNow();
+
+        Future<Integer> future2 = executor.submit(() -> {
+            try {
+                TimeUnit.SECONDS.sleep(3);
+                return 255;
+            }
+            catch (InterruptedException e) {
+                throw new IllegalStateException("task interrupted", e);
+            }
+        });
+
+        System.out.println("result2: " + future2.get());
+
+        Future<Integer> future3 = executor.submit(() -> {
+            try {
+                TimeUnit.SECONDS.sleep(5);
+                return 759;
+            }
+            catch (InterruptedException e) {
+                throw new IllegalStateException("task interrupted", e);
+            }
+        });
+
+        System.out.println("result2: " + future3.get());
+//        executor.shutdownNow();
     }
 
     private static void test2() throws InterruptedException, ExecutionException {

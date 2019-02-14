@@ -7,9 +7,6 @@ import java.util.concurrent.Executors;
 import java.util.concurrent.locks.Lock;
 import java.util.stream.IntStream;
 
-/**
- * @author Benjamin Winterberg
- */
 public class Synchronized1 {
 
     private static final int NUM_INCREMENTS = 10000;
@@ -18,7 +15,7 @@ public class Synchronized1 {
 
     public static void main(String[] args) {
         testSyncIncrement();
-        testNonSyncIncrement();
+//        testNonSyncIncrement();
     }
 
     private static void testSyncIncrement() {
@@ -27,27 +24,34 @@ public class Synchronized1 {
         ExecutorService executor = Executors.newFixedThreadPool(2);
 
         IntStream.range(0, NUM_INCREMENTS)
-                .forEach(i -> executor.submit(Synchronized1::incrementSync));
+                .parallel()
+                .peek(i -> executor.submit(Synchronized1::incrementSync))
+                .peek(i -> executor.submit(Synchronized1::increment2Sync))
+                .forEach(i -> {});
 
         ConcurrentUtils.stop(executor);
 
         System.out.println("   Sync: " + count);
     }
 
-    private static void testNonSyncIncrement() {
-        count = 0;
-
-        ExecutorService executor = Executors.newFixedThreadPool(2);
-
-        IntStream.range(0, NUM_INCREMENTS)
-                .forEach(i -> executor.submit(Synchronized1::increment));
-
-        ConcurrentUtils.stop(executor);
-
-        System.out.println("NonSync: " + count);
-    }
+//    private static void testNonSyncIncrement() {
+//        count = 0;
+//
+//        ExecutorService executor = Executors.newFixedThreadPool(2);
+//
+//        IntStream.range(0, NUM_INCREMENTS)
+//                .forEach(i -> executor.submit(Synchronized1::increment));
+//
+//        ConcurrentUtils.stop(executor);
+//
+//        System.out.println("NonSync: " + count);
+//    }
 
     private static synchronized void incrementSync() {
+        count = count + 1;
+    }
+
+    private static synchronized void increment2Sync() {
         count = count + 1;
     }
 

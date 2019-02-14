@@ -22,22 +22,24 @@ public class Lock3 {
         ReadWriteLock lock = new ReentrantReadWriteLock();
 
         executor.submit(() -> {
-            lock.writeLock().lock();
+            lock.readLock().lock();
             try {
+                System.out.println("Read lock");
                 ConcurrentUtils.sleep(3);
                 map.put("foo", "bar");
             } finally {
-                lock.writeLock().unlock();
+                lock.readLock().unlock();
             }
         });
 
         Runnable readTask = () -> {
-            lock.readLock().lock();
+            lock.writeLock().lock();
             try {
+                System.out.println("Write lock");
                 System.out.println(map.get("foo"));
                 ConcurrentUtils.sleep(3);
             } finally {
-                lock.readLock().unlock();
+                lock.writeLock().unlock();
             }
         };
         executor.submit(readTask);

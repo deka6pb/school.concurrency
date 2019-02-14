@@ -1,7 +1,7 @@
 package concurrent.thread;
 
 public class ThreadMain3 {
-    public static void main(String[] args) {
+    public static void main(String[] args) throws InterruptedException {
         Runnable task = () -> {
             String threadName = Thread.currentThread().getName();
             System.out.println("Hello " + threadName);
